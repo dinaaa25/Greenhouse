@@ -1,5 +1,5 @@
 
-![Logo](icon (19).png)
+![Logo](logo.png)
 
 
 # Greenhouse Manager
