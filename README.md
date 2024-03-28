@@ -1,5 +1,6 @@
-
-![Logo](logo.png)
+<div>
+  <img style="margin: auto" height="80" src="logo.png" />
+</div>
 
 
 # Greenhouse Manager
