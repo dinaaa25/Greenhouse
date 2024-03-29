@@ -1,25 +1,15 @@
-package com.botanic.greenhouse.model;
+package com.botanic.temperature.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
-
-@Entity
-@Table
 public class Crop {
     private String name;
     private String description;
     private Float minTemp;
     private Float maxTemp;
+    final Integer id;
 
-    @Id
-    @GeneratedValue
-    Integer id;
-
-    @OneToOne()
-    @JsonBackReference
-    Area area;
-
-    public Crop() {}
+    public Crop() {
+        id = -1;
+    }
 
     public Crop(String name, String description, int id, Float minTemp, Float maxTemp) {
         this.name = name;
@@ -27,14 +17,6 @@ public class Crop {
         this.id = id;
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;
-    }
-
-    public Area getArea() {
-        return area;
-    }
-
-    public void setArea(Area area) {
-        this.area = area;
     }
 
     public String getName() {
@@ -57,10 +39,6 @@ public class Crop {
         return this.id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Float getMinTemp() {
         return this.minTemp;
     }
@@ -75,5 +53,16 @@ public class Crop {
 
     public Float setMinTemp(Float minTemp) {
         return this.minTemp = minTemp;
+    }
+
+    @Override
+    public String toString() {
+        return "Crop{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", minTemp=" + minTemp +
+                ", maxTemp=" + maxTemp +
+                ", id=" + id +
+                '}';
     }
 }

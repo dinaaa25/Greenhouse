@@ -1,5 +1,6 @@
 package com.botanic.greenhouse.model;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -10,7 +11,8 @@ public class Greenhouse {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "greenhouse", cascade = {CascadeType.REMOVE})
+    @OneToMany(mappedBy = "greenhouse", cascade = {CascadeType.ALL, CascadeType.REMOVE})
+    @JsonManagedReference
     List<Area> areas;
 
     @Id
@@ -20,7 +22,6 @@ public class Greenhouse {
     public Greenhouse() {
         id = -1;
     }
-
 
     public Greenhouse(String name, String description, int id, List<Area> areas) {
         this.name = name;
@@ -57,9 +58,25 @@ public class Greenhouse {
         this.areas = areas;
     }
 
-//    public List<Crop> getAllGreenhouseCrops(){
-//        return areas.stream().map(a -> a.getCrop()).toList();
-//    }
+    @JsonIgnore
+    public List<Crop> getAllGreenhouseCrops(){
+        return areas.stream().map(a -> a.getCrop()).toList();
+    }
 
+    public void addNewCrop(Crop newCrop) {
+        Area myArea = new Area(newCrop, new Polygon());
+        newCrop.setArea(myArea);
+        this.areas.add(myArea);
+        myArea.setGreenhouse(this);
+    }
 
+    @Override
+    public String toString() {
+        return "Greenhouse{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", areas=" + areas +
+                ", id=" + id +
+                '}';
+    }
 }

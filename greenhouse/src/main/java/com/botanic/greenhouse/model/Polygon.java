@@ -1,5 +1,7 @@
 package com.botanic.greenhouse.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +15,7 @@ class Point {
     public final int y;
 
     @ManyToOne
+    @JsonBackReference
     private Polygon polygon;
 
     public int getX() {
@@ -93,9 +96,11 @@ public class Polygon {
     private int N;        // number of points in the polygon
 
     @OneToOne
+    @JsonBackReference
     private Area area;
 
     @OneToMany(mappedBy = "polygon", cascade = {CascadeType.REMOVE})
+    @JsonManagedReference
     private Point[] a;    // the points, setting points[0] = points[N]
 
     public int getN() {

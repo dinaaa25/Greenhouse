@@ -1,5 +1,7 @@
 package com.botanic.greenhouse.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -7,12 +9,15 @@ import jakarta.persistence.*;
 public class Area {
 
     @ManyToOne
+    @JsonBackReference
     private Greenhouse greenhouse;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Polygon polygon;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Crop crop;
 
     @Id
@@ -24,9 +29,7 @@ public class Area {
         this.polygon = polygon;
     }
 
-    public Area() {
-
-    }
+    public Area() {}
 
     public Greenhouse getGreenhouse() {
         return this.greenhouse;
