@@ -2,7 +2,11 @@ package com.botanic.temperature.service;
 
 import com.botanic.temperature.model.Crop;
 import com.botanic.temperature.model.TempRange;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,9 +17,24 @@ import java.util.List;
 @Service
 public class GreenhouseService {
 
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
+    @Value("${queue.result}")
+    private String queueId;
+
     protected List<Crop> getCropList(Integer greenHouseId) {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Crop[]> response = restTemplate.getForEntity("http://localhost:8080/greenhouse/{greenHouseId}/crops", Crop[].class, greenHouseId);
+        if(response.getBody() == null) {
+            return new ArrayList();
+        }
+        return Arrays.asList(response.getBody());
+    }
+
+    protected List<Integer> getAllGreenhouseIds() {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Integer[]> response = restTemplate.getForEntity("http://localhost:8080/greenhouse/ids", Integer[].class);
         if(response.getBody() == null) {
             return new ArrayList();
         }
@@ -43,5 +62,13 @@ public class GreenhouseService {
         return new TempRange(currentMinTemp, currentMaxTemp);
     }
 
+    @Scheduled(fixedRate = 600000) // 600000 milliseconds = 10 minutes
+    public void updateBestTemperatureQueue() {
+        List<Integer> allGreenhouseIds = this.getAllGreenhouseIds();
+        for(int index = 0; index < allGreenhouseIds.size(); index++) {
+            TempRange tempRange = getBestTemperature(allGreenhouseIds.get(index));
+            jmsTemplate.convertAndSend(queueId, tempRange);
+        }
+    }
 
 }

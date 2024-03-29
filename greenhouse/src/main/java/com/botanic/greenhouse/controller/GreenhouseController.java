@@ -26,6 +26,11 @@ public class GreenhouseController {
         return greenhouseRepository.findAll();
     }
 
+    @GetMapping("/ids")
+    public List<Integer> getAllGreenhouseIds() {
+        return greenhouseRepository.findAll().stream().map(e -> e.getId()).toList();
+    }
+
     @GetMapping("/{id}")
     public Greenhouse getGreenhouseByID(@PathVariable("id") int id) {
         return greenhouseRepository.findById(id).orElse(null);
