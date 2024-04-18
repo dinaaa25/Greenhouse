@@ -7,6 +7,13 @@
     <div class="border rounded shadow-sm">
       <UTable :columns="columns" :rows="crops"
         :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }">
+
+        <template #description-data="{ row }">
+          <span class="whitespace-normal">
+            {{ row.description }}
+          </span>
+        </template>
+
         <template #actions-data="{ row }">
           <UDropdown :items="items(row)">
             <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
@@ -18,13 +25,8 @@
 </template>
 
 <script setup lang="ts">
-const crops = [
-  {
-    id: 1,
-    name: "Tomato",
-  }
-];
 
+const crops = useState('crops');
 
 const columns = [
   {
@@ -34,6 +36,18 @@ const columns = [
   {
     key: "name",
     label: "Name",
+  },
+  {
+    key: "description",
+    label: "Description",
+  },
+  {
+    key: "minTemp",
+    label: "Min Temp",
+  },
+  {
+    key: "maxTemp",
+    label: "Max Temp",
   },
   {
     key: "actions",

@@ -23,6 +23,11 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	implementation 'org.springframework.boot:spring-boot-starter-activemq'
 	implementation 'org.springframework:spring-oxm:5.0.7.RELEASE'
+	implementation 'org.postgresql:postgresql'
+	implementation 'org.springframework.data:spring-data-jpa:3.2.4'
+	implementation 'org.hibernate.orm:hibernate-core:6.4.4.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
 
 tasks.named('test') {

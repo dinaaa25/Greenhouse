@@ -12,6 +12,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/greenhouse")
 public class GreenhouseController {
 

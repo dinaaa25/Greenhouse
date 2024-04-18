@@ -12,11 +12,15 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.19",
     "@nuxt/ui": "^2.15.2",
+    "@stomp/stompjs": "^7.0.0",
     "chart.js": "^4.4.2",
     "nuxt": "^3.11.2",
     "nuxt-icon": "^0.6.10",
     "vue": "^3.4.21",
     "vue-chartjs": "^5.3.1",
     "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/stompjs": "^2.3.9"
   }
 }

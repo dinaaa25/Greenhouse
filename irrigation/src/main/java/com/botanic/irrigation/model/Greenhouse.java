@@ -1,23 +1,14 @@
-package com.botanic.greenhouse.model;
+package com.botanic.irrigation.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.util.Arrays;
 import java.util.List;
 
-@Entity
-@Table
 public class Greenhouse {
     private String name;
     private String description;
-
-    @OneToMany(mappedBy = "greenhouse", cascade = {CascadeType.ALL, CascadeType.REMOVE})
-    @JsonManagedReference
     List<Area> areas;
-
-    @Id
-    @GeneratedValue
     final int id;
 
     public Greenhouse() {
@@ -66,7 +57,7 @@ public class Greenhouse {
 
     public void addNewCrop(Crop newCrop) {
         Area myArea = new Area(newCrop, new Polygon());
-        newCrop.setArea(Arrays.asList(myArea));
+        newCrop.setArea(myArea);
         this.areas.add(myArea);
         myArea.setGreenhouse(this);
     }

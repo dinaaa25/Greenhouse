@@ -1,27 +1,17 @@
-package com.botanic.greenhouse.model;
+package com.botanic.irrigation.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import java.util.List;
-
-@Entity
-@Table
 public class Crop {
     private String name;
     private String description;
     private Float minTemp;
     private Float maxTemp;
-    private String image;
 
-
-    @Id
-    @GeneratedValue
     Integer id;
 
-    @OneToMany()
-    @JsonBackReference
-    List<Area> area;
+    Area area;
 
     public Crop() {}
 
@@ -33,17 +23,13 @@ public class Crop {
         this.maxTemp = maxTemp;
     }
 
-    public List<Area> getArea() {
+    public Area getArea() {
         return area;
     }
 
-    public void setArea(List<Area> area) {
+    public void setArea(Area area) {
         this.area = area;
     }
-
-    public String getImage() { return this.image; }
-
-    public void setImage(String image) {this.image = image;}
 
     public String getName() {
         return this.name;

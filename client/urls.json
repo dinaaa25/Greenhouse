@@ -1,0 +1,4 @@
+{
+    "greenhouse": "http://localhost:8080",
+    "temperature": "http://localhost:8081"
+}

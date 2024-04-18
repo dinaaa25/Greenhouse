@@ -2,23 +2,30 @@ package com.botanic.temperature.service;
 
 import com.botanic.temperature.model.Crop;
 import com.botanic.temperature.model.TempRange;
+import com.botanic.temperature.model.TemperatureMeasurement;
+import com.botanic.temperature.repository.TemperatureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
+import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.data.domain.Sort;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class GreenhouseService {
 
     @Autowired
     private JmsTemplate jmsTemplate;
+
+    @Autowired
+    private TemperatureRepository temperatureRepository;
 
     @Value("${queue.result}")
     private String queueId;
@@ -44,7 +51,8 @@ public class GreenhouseService {
     public TempRange getBestTemperature(Integer greenHouseId) {
         List<Crop> cropList = getCropList(greenHouseId);
         if(cropList.size() == 0) {
-            return new TempRange(0F, 100F); // TODO return the current temp of the greenhouse then to keep it the same
+            TemperatureMeasurement currentTemp = getCurrentTemp(greenHouseId);
+            return new TempRange(currentTemp.getInsideTemp(), currentTemp.getInsideTemp()); // TODO return the current temp of the greenhouse then to keep it the same
         }
         Float currentMinTemp = cropList.get(0).getMinTemp();
         Float currentMaxTemp = cropList.get(0).getMaxTemp();
@@ -70,5 +78,28 @@ public class GreenhouseService {
             jmsTemplate.convertAndSend(queueId, tempRange);
         }
     }
+
+    @JmsListener(destination = "temperature_measurment")
+    public void receiveTemperatureMeasurement(TemperatureMeasurement temperatureMeasurement) {
+        System.out.println("jello");
+        temperatureRepository.saveAndFlush(temperatureMeasurement);
+    }
+
+
+    public TemperatureMeasurement getCurrentTemp(Integer greenhouseID) {
+        TemperatureMeasurement currentTempMeasure = getAllTempSortedByDate(greenhouseID).get(0);
+        return currentTempMeasure;
+    }
+
+
+    public List<TemperatureMeasurement> getAllTempSortedByDate(Integer greenhouseID) {
+        TemperatureMeasurement temperatureMeasurement = new TemperatureMeasurement();
+        temperatureMeasurement.setGreenhouseId(greenhouseID);
+        Sort sort = Sort.by(Sort.Direction.DESC, "measuredDateTime"); // Replace "date" with your actual date field name
+        List<TemperatureMeasurement> temperature = temperatureRepository.findBy(Example.of(temperatureMeasurement), fetchableFluentQuery -> fetchableFluentQuery.sortBy(sort).all());
+        return temperature;
+    }
+
+
 
 }

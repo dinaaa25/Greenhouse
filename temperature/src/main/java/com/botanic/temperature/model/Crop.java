@@ -1,20 +1,21 @@
 package com.botanic.temperature.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 public class Crop {
     private String name;
     private String description;
     private Float minTemp;
     private Float maxTemp;
-    final Integer id;
 
-    public Crop() {
-        id = -1;
-    }
+    Integer id;
 
-    public Crop(String name, String description, int id, Float minTemp, Float maxTemp) {
+    public Crop(String name, String description, Float minTemp, Float maxTemp) {
         this.name = name;
         this.description = description;
-        this.id = id;
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;
     }

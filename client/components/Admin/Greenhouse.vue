@@ -4,19 +4,17 @@
       <Icon name="game-icons:greenhouse" /> Greenhouses
     </h2>
     <div class="border rounded shadow-sm">
-      <UTable :rows="ghouses" :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }" />
+      <UTable :columns="cols" :rows="ghouses" :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-interface Greenhouse {
-  id: number,
-  name: string,
-  description: string,
-}
+const ghouses = useState('greenhouses');
 
-
-const ghouses: Greenhouse[] = [];
-
+const cols = [
+  {key: "id", label: "ID"},
+  {key: "name", label: "Name"},
+  {key: "description", label: "Description"},
+];
 </script>

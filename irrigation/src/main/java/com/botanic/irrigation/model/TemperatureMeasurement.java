@@ -1,4 +1,4 @@
-package com.botanic.temperature.model;
+package com.botanic.irrigation.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,14 +7,7 @@ import jakarta.persistence.Table;
 
 import java.util.Date;
 
-@Entity
-@Table
 public class TemperatureMeasurement {
-
-    @Id
-    @GeneratedValue
-    private Integer id;
-
     private Integer greenhouseId;
 
     private Float insideTemp;
@@ -49,17 +42,5 @@ public class TemperatureMeasurement {
 
     public void setGreenhouseId(Integer id){
         this.greenhouseId = id;
-    }
-
-    public Integer getGreenhouseId() {
-        return greenhouseId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 }
