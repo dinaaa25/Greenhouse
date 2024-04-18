@@ -1,0 +1,33 @@
+version: "3"
+services:
+  temperature:
+    build: ./temperature
+
+  greenhouse:
+    build: ./greenhouse
+
+  ventilation:
+    build: ./ventilation
+
+  irrigation:
+    build: ./irrigation
+
+  humidity:
+    build: ./humidity
+
+  device_manager:
+    build: ./deviceManager
+
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+
+  database:
+    build: "./db"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=jamaica
+
+  message_queue:
+    image: "apache/activemq-classic"

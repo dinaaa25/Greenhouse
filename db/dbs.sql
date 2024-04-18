@@ -1,0 +1,6 @@
+CREATE DATABASE temperature;
+CREATE DATABASE greenhouse;
+CREATE DATABASE humidity;
+CREATE DATABASE ventilation;
+CREATE DATABASE irrigation;
+CREATE DATABASE devices;
