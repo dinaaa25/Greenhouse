@@ -23,6 +23,10 @@ dependencies {
 	implementation 'org.springframework:spring-oxm:5.0.7.RELEASE'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
 	implementation 'org.springframework.boot:spring-boot-starter-json'
+	implementation 'org.postgresql:postgresql'
+	implementation 'org.springframework.data:spring-data-jpa:3.2.4'
+	implementation 'org.hibernate.orm:hibernate-core:6.4.4.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 }
 
 tasks.named('test') {

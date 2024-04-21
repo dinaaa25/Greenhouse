@@ -1,13 +1,28 @@
 package com.botanic.deviceManager.model;
 
+import jakarta.persistence.*;
+
+enum DeviceStatusType {
+    PERCENTAGE,
+    SWITCH
+}
+
+@Entity
+@Table
 public class Device {
-
     private String name;
-    private Integer id;
-    private DeviceType type;
-    private DeviceStatus status;
 
-    public Device(String name, Integer id, DeviceType type, DeviceStatus status) {
+    @Id
+    @GeneratedValue
+    private Integer id;
+
+    @ManyToOne
+    private DeviceType type;
+
+    @Enumerated
+    private DeviceStatusType status;
+
+    public Device(String name, Integer id, DeviceType type, DeviceStatusType status) {
         this.name = name;
         this.id = id;
         this.type = type;
@@ -38,11 +53,11 @@ public class Device {
         this.id = id;
     }
 
-    public DeviceStatus getStatus() {
+    public DeviceStatusType getStatus() {
         return status;
     }
 
-    public void setStatus(DeviceStatus status) {
+    public void setStatus(DeviceStatusType status) {
         this.status = status;
     }
 }

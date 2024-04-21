@@ -1,25 +1,7 @@
-volumes:
-  node_modules:
+# volumes:
+#   node_modules:
 
 services:
-  temperature:
-    build: ./temperature
-
-  greenhouse:
-    build: ./greenhouse
-
-  ventilation:
-    build: ./ventilation
-
-  irrigation:
-    build: ./irrigation
-
-  humidity:
-    build: ./humidity
-
-  device_manager:
-    build: ./deviceManager
-
   client:
     build:
       context: ./client
@@ -28,14 +10,5 @@ services:
       - "3000:3000"
       - "24678:24678"
     volumes:
-      - ./client:src
-      - ./client/node_modules:src/node_modules
-
-  database:
-    build: "./db"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=jamaica
-
-  message_queue:
-    image: "apache/activemq-classic"
+      - ./client:/src
+      - /src/node_modules

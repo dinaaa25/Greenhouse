@@ -1,10 +1,11 @@
 package com.botanic.deviceManager.repository;
 
-import com.botanic.deviceManager.model.Device;
+import com.botanic.deviceManager.model.DeviceType;
 import org.springframework.stereotype.Repository;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
-public abstract class DeviceRepository implements JpaRepository<Device, Integer> {
+public abstract class DeviceTypeRespository implements JpaRepository<DeviceType, Integer> {
 
 }

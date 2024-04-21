@@ -27,13 +27,26 @@
               <p>{{ moisture }}</p>
               <DevButton>Submit</DevButton>
             </div>
+            <div class="border rounded-lg col-span-2">
+              <p class="font-bold p-2">Devices</p>
+              <div v-for="device in devices" class="bg-gray-200 flex px-2 gap-4 py-1">
+                <p class="font-medium">{{ device.name }}</p>
+                <UBadge color="blue">{{ device.type }}</UBadge>
+              </div>
+            </div>
+            {{ deviceTypes }}
+            <div class="border rounded-lg p-2 space-y-2">
+              <p class="font-bold">Add Device</p>
+              <UInput v-model="exampleName" color="primary" variant="outline" placeholder="Name" />
+              <!-- <USelect v-if="deviceTypes" v-model="country" :options="deviceTypes" /> -->
+              <UButton @click="addDevice">Submit</UButton>
+            </div>
           </div>
         </div>
         <div v-else>
-        select a greenhouse first.
+          select a greenhouse first.
         </div>
       </div>
-
     </main>
   </div>
 </template>
@@ -41,16 +54,29 @@
 <script setup lang="ts">
 import type { Greenhouse } from '~/types/greenhouse';
 import type { TemperatureMeasurement } from '~/types/temperature';
+import type { Device } from '~~/types/device';
+
+const devices: Ref<Device[]> = ref([]);
+
+const country = ref()
 
 const greenhouses = useGreenhouses();
 const selectedGreenhouse = useState<Greenhouse>("selected-greenhouse");
 
+const exampleName = ref("Example Name");
+
+const myclient = useStompClient();
+
+function addDevice() {
+  let device = { name: exampleName.value, type: country.value };
+  devices.value.push(device);
+  myclient.publish({ destination: "device_registration", headers: { "_typeId": "com.botanic.deviceManager.model.Device" }, body: JSON.stringify(device) });
+}
 
 const temp = ref(50);
 const humidity = ref(50);
 const moisture = ref(50);
 
-const myclient = useStompClient();
 
 async function submitTemperature() {
   if (temp.value && selectedGreenhouse.value.id) {
@@ -60,7 +86,17 @@ async function submitTemperature() {
 
 function sendTemperatureToMessageQueue(temperature: number, greenhouseId: number) {
   const date = new Date();
-  const body: TemperatureMeasurement = {"insideTemp": temperature, "greenhouseId": greenhouseId, "measuredDateTime": date.toISOString()};
-  myclient.publish({destination: "temperature_measurment", headers: {"_typeId": "com.botanic.temperature.model.TemperatureMeasurement"}, body: JSON.stringify(body)});
+  const body: TemperatureMeasurement = { "insideTemp": temperature, "greenhouseId": greenhouseId, "measuredDateTime": date.toISOString() };
+  myclient.publish({ destination: "temperature_measurment", headers: { "_typeId": "com.botanic.temperature.model.TemperatureMeasurement" }, body: JSON.stringify(body) });
 }
+
+const deviceTypes = useState("devicetypes");
+
+useFetch("http://localhost:8000/devices/device-types/", {
+  async onResponse({ request, response }) {
+    if (response.status === 200) {
+      deviceTypes.value = await response._data;
+    }
+  }
+});
 </script>

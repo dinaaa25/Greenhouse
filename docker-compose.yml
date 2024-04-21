@@ -1,33 +1,117 @@
 version: "3"
 services:
   temperature:
-    build: ./temperature
+    container_name: temperature
+    build:
+      context: ./temperature
+      args:
+        MAIN_CLASS: com.botanic.temperature.TemperatureApplication
+    restart: on-failure
+    depends_on:
+      - database
+      - message_queue
+    links:
+      - database
+    expose:
+      - 8081
 
   greenhouse:
-    build: ./greenhouse
+    container_name: greenhouse
+    build:
+      context: ./greenhouse
+      args:
+        MAIN_CLASS: com.botanic.greenhouse.GreenhouseApplication
+    restart: on-failure
+    depends_on:
+      - database
+      - message_queue
+    links:
+      - database
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
 
   ventilation:
-    build: ./ventilation
+    container_name: ventilation
+    build:
+      context: ./ventilation
+      args:
+        MAIN_CLASS: com.botanic.ventilation.VentilationApplication
+    depends_on:
+      - database
+      - message_queue
+    expose:
+      - 8082
 
   irrigation:
-    build: ./irrigation
+    container_name: irrigation
+    build:
+      context: ./irrigation
+      args:
+        MAIN_CLASS: com.botanic.irrigation.IrrigationApplication
+    depends_on:
+      - database
+      - message_queue
+    expose:
+      - 8080
 
   humidity:
-    build: ./humidity
+    container_name: humidity
+    build:
+      context: ./humidity
+      args:
+        MAIN_CLASS: com.botanic.humidity.HumidityApplication
+    depends_on:
+      - database
+      - message_queue
+    expose:
+      - 8080
 
   device_manager:
-    build: ./deviceManager
+    container_name: device_manager
+    build:
+      context: ./deviceManager
+      args:
+        MAIN_CLASS: com.botanic.deviceManager.DeviceManagerApplication
+    depends_on:
+      - database
+      - message_queue
+    expose:
+      - 8082
 
   client:
+    container_name: "front-end"
     build: ./client
     ports:
       - "3000:3000"
 
   database:
+    container_name: database
     build: "./db"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=jamaica
+    expose:
+      - 5432
 
   message_queue:
+    container_name: messagequeue
     image: "apache/activemq-classic"
+
+  nginx:
+    build:
+      context: nginx
+    container_name: nginx
+    restart: always
+    tty: true
+    ports:
+      - "8000:80"
+      - "3030:3030"
+    depends_on:
+      - temperature
+      - greenhouse
+      - device_manager
+      - humidity
+      - ventilation
+      - irrigation

@@ -25,6 +25,7 @@ dependencies {
 	implementation 'org.hibernate.orm:hibernate-core:6.4.4.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator:3.2.1'
 
 
 }

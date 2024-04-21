@@ -1,4 +1,9 @@
 {
-    "greenhouse": "http://localhost:8080",
-    "temperature": "http://localhost:8081"
+    "greenhouse": "http://localhost:8000/gh-api",
+    "temperature": "http://localhost:8000/temp-api",
+    "humidity": "http://localhost:8000/humidity",
+    "irrigation": "http://localhost:8000/irrigation",
+    "deviceManager": "http://localhost:8000/deviceManager",
+    "ventilation": "http://localhost:8000/ventilation",
+    "message_queue": "ws://localhost:3030"
 }

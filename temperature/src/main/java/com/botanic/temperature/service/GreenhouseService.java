@@ -32,7 +32,7 @@ public class GreenhouseService {
 
     protected List<Crop> getCropList(Integer greenHouseId) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Crop[]> response = restTemplate.getForEntity("http://localhost:8080/greenhouse/{greenHouseId}/crops", Crop[].class, greenHouseId);
+        ResponseEntity<Crop[]> response = restTemplate.getForEntity("http://greenhouse:8080/greenhouse/{greenHouseId}/crops", Crop[].class, greenHouseId);
         if(response.getBody() == null) {
             return new ArrayList();
         }
@@ -41,7 +41,7 @@ public class GreenhouseService {
 
     protected List<Integer> getAllGreenhouseIds() {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Integer[]> response = restTemplate.getForEntity("http://localhost:8080/greenhouse/ids", Integer[].class);
+        ResponseEntity<Integer[]> response = restTemplate.getForEntity("http://greenhouse:8080/greenhouse/ids", Integer[].class);
         if(response.getBody() == null) {
             return new ArrayList();
         }

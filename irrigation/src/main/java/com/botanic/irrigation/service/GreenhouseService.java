@@ -38,7 +38,7 @@ public class GreenhouseService {
     @Scheduled(fixedDelay = 15, timeUnit = TimeUnit.MINUTES)
     public void setIrrigations() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getForEntity("http://localhost:8080/")
+        // restTemplate.getForEntity("http://greenhouse:8080/");
     }
 
     public Irrigation getCropIrrigationByTemp(Integer greenhouseId, Integer cropId) {
@@ -56,13 +56,13 @@ public class GreenhouseService {
 
     public Float getGreenhouseInsideTemp(Integer greenhouseId, Integer cropId) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<TemperatureMeasurement> response = restTemplate.getForEntity("http://localhost:8081/temperature/{greenhouseId}", TemperatureMeasurement.class, greenhouseId);
+        ResponseEntity<TemperatureMeasurement> response = restTemplate.getForEntity("http://temperature:8081/temperature/{greenhouseId}", TemperatureMeasurement.class, greenhouseId);
         return response.getBody().getInsideTemp();
     }
 
     public Range getTempMinMaxOfCrop(Integer cropId) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Crop> response = restTemplate.getForEntity("http://localhost:8080/greenhouse/crop/{cropId}", Crop.class, cropId);
+        ResponseEntity<Crop> response = restTemplate.getForEntity("http://greenhouse:8080/greenhouse/crop/{cropId}", Crop.class, cropId);
         Float minTemp = response.getBody().getMaxTemp();
         Float maxTemp = response.getBody().getMinTemp();
         Range tempRange = new Range(minTemp, maxTemp);

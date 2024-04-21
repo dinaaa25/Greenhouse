@@ -20,15 +20,17 @@ public class DeviceController {
 
     @GetMapping()
     public List<Device> getAllDevices() {
-        return deviceRepository.getAllDevices();
+        return deviceRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Device getDeviceById(@PathVariable("id") Integer deviceId) {
-        return deviceRepository.getDeviceById(deviceId);
+        return deviceRepository.findById(deviceId).orElseThrow();
     }
 
-    // todo option when the greenhouse computer connects the new device it is automatically registered in activemq and read from the device service and passed into the database
+    // todo option when the greenhouse computer connects the new device it is
+    // automatically registered in activemq and read from the device service and
+    // passed into the database
     @PostMapping()
     public Device addNewDevice(Device device) {
         deviceService.addDevice(device);
@@ -37,7 +39,7 @@ public class DeviceController {
 
     @DeleteMapping("/{id}")
     public void deleteDeviceById(@PathVariable("id") Integer deviceId) {
-        deviceRepository.deleteDeviceById(deviceId);
+        deviceRepository.deleteById(deviceId);
     }
 
 }

@@ -19,7 +19,8 @@ import org.springframework.jms.support.converter.MessageType;
 public class JmsConfiguration {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(JmsConfiguration.class);
-    // print errors and info via logger on the console, instead of system.out.print to set only for errors or disable it or etc.
+    // print errors and info via logger on the console, instead of system.out.print
+    // to set only for errors or disable it or etc.
 
     @Value("${activemq.broker-url}")
     private String brokerUrl;
@@ -39,17 +40,21 @@ public class JmsConfiguration {
     }
 
     /**
-     * Connect JMS to an external ActiveMQ session, based on the active.broker-url of application.properties
+     * Connect JMS to an external ActiveMQ session, based on the active.broker-url
+     * of application.properties
      */
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() {
+        log.info("Attempt to ActiveMQ host: {}", brokerUrl);
+
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
 
         activeMQConnectionFactory.setBrokerURL(brokerUrl);
 
         log.info("Connect to ActiveMQ host: {}", brokerUrl);
 
-        if(brokerUsername != null && !brokerUsername.isEmpty() && brokerPassword != null && !brokerPassword.isEmpty()) {
+        if (brokerUsername != null && !brokerUsername.isEmpty() && brokerPassword != null
+                && !brokerPassword.isEmpty()) {
             activeMQConnectionFactory.setUserName(brokerUsername);
             activeMQConnectionFactory.setPassword(brokerPassword);
         }
@@ -57,9 +62,9 @@ public class JmsConfiguration {
         return activeMQConnectionFactory;
     }
 
-
     // adding jackson to jms
-    // because jackson can convert json to object and vice and versa and jms can send this so we need both to send json to activemq
+    // because jackson can convert json to object and vice and versa and jms can
+    // send this so we need both to send json to activemq
     @Bean
     public MessageConverter jsonMarshaller() {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
@@ -68,7 +73,6 @@ public class JmsConfiguration {
         converter.setObjectMapper(new ObjectMapper().findAndRegisterModules());
         return converter;
     }
-
 
     /**
      * Create the JmsListernerFactory with the correct marshaller.

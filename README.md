@@ -20,6 +20,14 @@ coming soon
 
 ## Installation
 
+To run the project, run the following command.
+This will build all docker containers required and start them with the correct options.
+```
+docker compose -f docker-compose.yml up --build
+```
+(also contained in `run.sh`).
+After running it should be possible to open [localhost:3000](http://localhost:3000/).
+
 Run individual microservices with:
 
 ```bash
