@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ventilation
+  name: ventilation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ventilation
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: ventilation
+    spec:
+      containers:
+        - image: ventilation
+          name: ventilation
+          ports:
+            - containerPort: 8082
+          resources: {}
+      restartPolicy: Always
+status: {}

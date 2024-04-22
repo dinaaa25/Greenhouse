@@ -12,7 +12,7 @@ import java.util.List;
 public class DeviceTypeController {
 
   @Autowired
-  DeviceTypeRespository repository;
+  DeviceTypeRepository repository;
 
   @GetMapping()
   public List<DeviceType> getAll() {

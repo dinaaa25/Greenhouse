@@ -38,7 +38,7 @@
             <div class="border rounded-lg p-2 space-y-2">
               <p class="font-bold">Add Device</p>
               <UInput v-model="exampleName" color="primary" variant="outline" placeholder="Name" />
-              <!-- <USelect v-if="deviceTypes" v-model="country" :options="deviceTypes" /> -->
+              <USelect v-if="deviceTypes" v-model="country" :options="deviceTypes" />
               <UButton @click="addDevice">Submit</UButton>
             </div>
           </div>

@@ -3,7 +3,7 @@
     "temperature": "http://localhost:8000/temp-api",
     "humidity": "http://localhost:8000/humidity",
     "irrigation": "http://localhost:8000/irrigation",
-    "deviceManager": "http://localhost:8000/deviceManager",
+    "deviceManager": "http://localhost:8000/devices",
     "ventilation": "http://localhost:8000/ventilation",
     "message_queue": "ws://localhost:3030"
 }
