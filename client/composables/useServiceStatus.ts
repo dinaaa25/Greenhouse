@@ -13,10 +13,11 @@ export const useServiceStatus = () => {
     "status",
     () => []
   );
+  const date = ref();
 
-  if (statuses.value.length === 0) {
+  setInterval(() => {
+    statuses.value = [];
     for (let service of services) {
-      console.log(service);
       let status = false;
       let link = `${urls[service]}/actuator/health`;
       fetch(link).then((response) => {
@@ -26,7 +27,8 @@ export const useServiceStatus = () => {
         statuses.value.push({ status: status, name: service, link: link });
       });
     }
-  }
+    date.value = new Date();
+  }, 50000);
 
-  return statuses;
+  return { statuses: statuses, refreshedAt: date };
 };

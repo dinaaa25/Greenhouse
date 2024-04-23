@@ -15,12 +15,11 @@
           <div class="grid grid-cols-3 gap-2 pb-2">
             <div class="bg-indigo-500 rounded-lg p-8 m-2 text-white">
               <p class="font-bold">Humidity Level</p>
-              <p class="font-medium">This page contains all necessary information to keep an overview of your crops
-                while we manage it automatically for you.</p>
+              <p class="font-medium font-mono text-4xl mt-4">{{ selectedGreenhouse.temperature }} g/kg</p>
             </div>
             <div class="text-white p-8 m-2 rounded-lg bg-blue-400 shadow-md flex flex-col">
               <p class="font-extrabold text-2xl">Temperature</p>
-              <p class="font-medium font-mono text-4xl">{{ temperature }}° Celsius</p>
+              <p class="font-medium font-mono text-4xl">{{ selectedGreenhouse.temperature }}° Celsius</p>
               <p v-for="area of selectedGreenhouse.areas">Optimal temperature for <UBadge color="blue">{{
               area?.crop?.name }}</UBadge> is between {{ area?.crop?.minTemp }}-{{ area?.crop?.maxTemp }} degrees.
               </p>
@@ -76,14 +75,13 @@ const selectedGreenhouse = useState<Greenhouse>("selected-greenhouse");
 const greenhouses = useGreenhouses();
 const crops = useCrops();
 
-const temperature = ref();
-
 watch(selectedGreenhouse, async () => {
   if (selectedGreenhouse.value.id) {
     await $fetch(`${urls.temperature}/temperature/${selectedGreenhouse.value?.id}/current`, {
       async onResponse({ request, response }) {
         if (response.status === 200) {
-          temperature.value = await response._data;
+          const green = greenhouses.value.find(e => e.id === selectedGreenhouse.value.id);
+          green!.temperature = await response._data;
         }
       }
     });

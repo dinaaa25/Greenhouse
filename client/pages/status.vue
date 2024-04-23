@@ -1,9 +1,13 @@
 <template>
   <div class="mx-auto max-w-7xl my-10">
     <h1 class="text-3xl mb-8">Microservice Health Check</h1>
-    <UBadge color="gray">{{ total
-      }} / {{
-      statuses.length }}</UBadge>
+    <div>
+      <UBadge color="gray">{{ total
+        }} / {{
+        statuses.length }}</UBadge>
+      <p>Refreshed at {{ refreshedAt }}</p>
+    </div>
+
     <div class="border-b my-4"></div>
     <div class="space-y-4">
       <div v-for="status in statuses" class="flex gap-2">
@@ -17,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-const statuses = useServiceStatus();
+const { statuses, refreshedAt } = useServiceStatus();
 
 const total = computed(() => {
   let result = 0;

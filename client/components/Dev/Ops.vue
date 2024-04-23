@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-const statuses = useServiceStatus();
+const { statuses } = useServiceStatus();
 
 const status = computed(() => {
   if (statuses.value.length === 0) {

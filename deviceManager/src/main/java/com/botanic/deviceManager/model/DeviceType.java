@@ -11,11 +11,6 @@ public class DeviceType {
     private Integer id;
     private String name;
 
-    public DeviceType(String name, Integer id) {
-        this.name = name;
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }

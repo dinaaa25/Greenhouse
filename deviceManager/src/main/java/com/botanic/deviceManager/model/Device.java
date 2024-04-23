@@ -22,13 +22,6 @@ public class Device {
     @Enumerated
     private DeviceStatusType status;
 
-    public Device(String name, Integer id, DeviceType type, DeviceStatusType status) {
-        this.name = name;
-        this.id = id;
-        this.type = type;
-        this.status = status;
-    }
-
     public DeviceType getType() {
         return type;
     }

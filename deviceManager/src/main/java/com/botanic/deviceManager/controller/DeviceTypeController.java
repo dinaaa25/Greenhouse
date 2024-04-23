@@ -1,7 +1,7 @@
 package com.botanic.deviceManager.controller;
 
 import com.botanic.deviceManager.model.DeviceType;
-import com.botanic.deviceManager.repository.DeviceTypeRespository;
+import com.botanic.deviceManager.repository.DeviceTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
