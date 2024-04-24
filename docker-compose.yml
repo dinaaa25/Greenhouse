@@ -6,6 +6,7 @@ services:
       context: ./temperature
       args:
         MAIN_CLASS: com.botanic.temperature.TemperatureApplication
+    image: markbruderer/temperature
     restart: on-failure
     depends_on:
       - database
@@ -21,6 +22,7 @@ services:
       context: ./greenhouse
       args:
         MAIN_CLASS: com.botanic.greenhouse.GreenhouseApplication
+    image: markbruderer/greenhouse
     restart: on-failure
     depends_on:
       - database
@@ -38,6 +40,7 @@ services:
       context: ./ventilation
       args:
         MAIN_CLASS: com.botanic.ventilation.VentilationApplication
+    image: markbruderer/ventilation
     depends_on:
       - database
       - message_queue
@@ -52,6 +55,7 @@ services:
       context: ./irrigation
       args:
         MAIN_CLASS: com.botanic.irrigation.IrrigationApplication
+    image: markbruderer/irrigation
     depends_on:
       - database
       - message_queue
@@ -64,6 +68,7 @@ services:
       context: ./humidity
       args:
         MAIN_CLASS: com.botanic.humidity.HumidityApplication
+    image: markbruderer/humidity
     depends_on:
       - database
       - message_queue
@@ -76,6 +81,7 @@ services:
       context: ./deviceManager
       args:
         MAIN_CLASS: com.botanic.deviceManager.DeviceManagerApplication
+    image: markbruderer/devicemanager
     depends_on:
       - database
       - message_queue
@@ -87,12 +93,14 @@ services:
   client:
     container_name: "front-end"
     build: ./client
+    image: markbruderer/greenhouseclient
     ports:
       - "3000:3000"
 
   database:
     container_name: database
     build: "./db"
+    image: markbruderer/greenhousedb
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=jamaica
@@ -106,6 +114,7 @@ services:
   nginx:
     build:
       context: nginx
+    image: markbruderer/greenhouseapigateway
     container_name: nginx
     restart: always
     tty: true
