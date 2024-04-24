@@ -18,5 +18,13 @@ interface Device {
   status: string,
 }
 
-const devices: Device[] = [];
+const devices: Device[] = useState("all-devices");
+
+useFetch("http://localhost:8000/devices/device", {
+  async onResponse({ request, response }) {
+    if (response.status === 200) {
+      devices.value = await response._data;
+    }
+  }
+});
 </script>

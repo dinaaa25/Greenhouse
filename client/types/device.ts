@@ -3,3 +3,9 @@ export interface Device {
   type: string;
   status: boolean;
 }
+
+export interface DeviceDTO {
+  name: string;
+  type: { id?: number; name: string };
+  status: string;
+}

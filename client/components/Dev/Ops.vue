@@ -1,8 +1,10 @@
 <template>
-  <NuxtLink to="/status">
-    <UBadge v-if="status">All Systems Operational</UBadge>
-    <UBadge v-else color="orange">Experiencing Problems</UBadge>
-  </NuxtLink>
+  <div>
+    <NuxtLink to="/status">
+      <UBadge v-if="status">All Systems Operational</UBadge>
+      <UBadge v-else color="orange">Experiencing Problems</UBadge>
+    </NuxtLink>
+  </div>
 </template>
 
 <script setup lang="ts">

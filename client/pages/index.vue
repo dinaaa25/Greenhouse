@@ -15,7 +15,7 @@
           <div class="grid grid-cols-3 gap-2 pb-2">
             <div class="bg-white rounded-lg p-8 m-2 shadow">
               <p class="font-bold text-gray-600 text-2xl">Humidity Level</p>
-              <p class="font-bold font-mono text-2xl mt-4 text-gray-500">{{ selectedGreenhouse.temperature }} g/kg</p>
+              <p class="font-bold font-mono text-2xl mt-4 text-gray-500">33.2 g/m<sup>3</sup></p>
             </div>
             <div class="text-gray-500 p-8 m-2 gap-2 rounded-lg bg-white shadow flex flex-col">
               <p class="font-bold text-gray-600 text-2xl">Temperature</p>
@@ -29,7 +29,8 @@
               <Bar class="max-h-72" :data="chartData" :options="chartOptions" />
             </div>
             <div class="bg-white rounded-lg p-8 m-2 text-gray-500 shadow">
-              <p class="font-bold text-2xl text-gray-600">Moisture Level</p>
+              <p class="font-bold text-2xl text-gray-600 mb-2">Moisture Level</p>
+              <p class="font-bold font-mono text-2xl">40 %</p>
             </div>
             <div class="p-8 m-2 rounded-lg bg-white text-gray-600 shadow flex flex-col">
               <div v-for="area in selectedGreenhouse.areas">
@@ -77,6 +78,10 @@ watch(selectedGreenhouse, async () => {
   }
 });
 
+const irrigationData = computed(() => {
+  return Array.from(Array(5)).map(e => Math.random() * 10);
+});
+
 
 const chartData = ref({
   labels: ['January', 'February', 'March', 'April', 'May'],
@@ -84,7 +89,7 @@ const chartData = ref({
     {
       label: 'Data One',
       backgroundColor: '#0EA5E9',
-      data: [40, 20, 12, 50, 10],
+      data: irrigationData.value,
     },
   ],
 });

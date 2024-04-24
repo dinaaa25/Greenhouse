@@ -53,7 +53,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Device, Greenhouse } from '~/types/greenhouse';
+import type { Greenhouse } from '~/types/greenhouse';
+import type { Device, DeviceDTO } from '~/types/device';
 import type { TemperatureMeasurement } from '~/types/temperature';
 
 const country = ref()
@@ -68,7 +69,8 @@ const myclient = useStompClient();
 function addDevice() {
   let device: Device = { name: exampleName.value, type: country.value, status: true };
   selectedGreenhouse.value.devices.push(device);
-  myclient.publish({ destination: "device_registration", headers: { "_typeId": "com.botanic.deviceManager.model.Device" }, body: JSON.stringify(device) });
+  let deviceDto: DeviceDTO = { name: device.name, status: String(device.status), type: { name: device.name } };
+  myclient.publish({ destination: "device_registration", headers: { "_typeId": "com.botanic.deviceManager.model.Device" }, body: JSON.stringify(deviceDto) });
 }
 
 const temp = ref(50);

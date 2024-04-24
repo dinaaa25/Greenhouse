@@ -4,7 +4,7 @@
     <div>
       <UBadge color="gray">{{ total
         }} / {{
-        statuses.length }}</UBadge>
+        statuses.size }}</UBadge>
       <p>Refreshed at {{ refreshedAt }}</p>
     </div>
 
