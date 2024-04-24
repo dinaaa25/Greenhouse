@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert -f docker-compose.yml
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: greenhouse
+  name: greenhouse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: greenhouse
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert -f docker-compose.yml
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/greenhouseproject-default: "true"
+        io.kompose.service: greenhouse
+    spec:
+      containers:
+        - image: markbruderer/greenhouse
+          name: greenhouse
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+      restartPolicy: Always
