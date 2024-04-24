@@ -12,7 +12,7 @@ const chartData = ref({
       label: 'My First Dataset',
       data: [20, 22, 20, 19, 25, 25, 25],
       fill: false,
-      borderColor: 'rgb(256, 256, 256)',
+      borderColor: '#0EA5E9',
       tension: 0.1
     },
   ],

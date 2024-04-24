@@ -11,7 +11,7 @@ const chartData = ref({
   datasets: [
     {
       label: 'Data One',
-      backgroundColor: '#fff',
+      backgroundColor: '#0EA5E9',
       data: [10, 20, 25, 30, 35],
     },
   ],

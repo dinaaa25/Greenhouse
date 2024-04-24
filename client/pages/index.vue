@@ -11,48 +11,37 @@
           <DevOps />
         </div>
         <div class="mt-4" v-if="selectedGreenhouse">
-          <h2 class="text-4xl mt-6 mb-5 text-gray-600 font-bold">{{ selectedGreenhouse.name }}</h2>
+          <h2 class="text-4xl mt-6 mb-5 text-gray-800 font-bold">{{ selectedGreenhouse.name }}</h2>
           <div class="grid grid-cols-3 gap-2 pb-2">
-            <div class="bg-indigo-500 rounded-lg p-8 m-2 text-white">
-              <p class="font-bold">Humidity Level</p>
-              <p class="font-medium font-mono text-4xl mt-4">{{ selectedGreenhouse.temperature }} g/kg</p>
+            <div class="bg-white rounded-lg p-8 m-2 shadow">
+              <p class="font-bold text-gray-600 text-2xl">Humidity Level</p>
+              <p class="font-bold font-mono text-2xl mt-4 text-gray-500">{{ selectedGreenhouse.temperature }} g/kg</p>
             </div>
-            <div class="text-white p-8 m-2 rounded-lg bg-blue-400 shadow-md flex flex-col">
-              <p class="font-extrabold text-2xl">Temperature</p>
-              <p class="font-medium font-mono text-4xl">{{ selectedGreenhouse.temperature }}° Celsius</p>
+            <div class="text-gray-500 p-8 m-2 gap-2 rounded-lg bg-white shadow flex flex-col">
+              <p class="font-bold text-gray-600 text-2xl">Temperature</p>
+              <p class="font-bold font-mono text-2xl">{{ selectedGreenhouse.temperature }}° Celsius</p>
               <p v-for="area of selectedGreenhouse.areas">Optimal temperature for <UBadge color="blue">{{
               area?.crop?.name }}</UBadge> is between {{ area?.crop?.minTemp }}-{{ area?.crop?.maxTemp }} degrees.
               </p>
             </div>
-            <div class="p-8 m-2 rounded-lg bg-blue-400 shadow-md flex flex-col row-span-2">
-              <p class="text-white font-extrabold text-2xl">Irrigation</p>
+            <div class="p-8 m-2 rounded-lg bg-white shadow flex flex-col row-span-2">
+              <p class="text-gray-600 font-bold text-2xl">Irrigation</p>
               <Bar class="max-h-72" :data="chartData" :options="chartOptions" />
             </div>
-            <div class="bg-blue-400 rounded-lg p-8 m-2 text-white">
-              <p class="font-bold">Moisture Level</p>
+            <div class="bg-white rounded-lg p-8 m-2 text-gray-500 shadow">
+              <p class="font-bold text-2xl text-gray-600">Moisture Level</p>
             </div>
-            <div class="p-8 m-2 rounded-lg border border-gray-200 bg-white text-gray-600 shadow-md flex flex-col">
+            <div class="p-8 m-2 rounded-lg bg-white text-gray-600 shadow flex flex-col">
               <div v-for="area in selectedGreenhouse.areas">
-                <p class=" font-extrabold text-2xl">Current Crop: {{ area.crop.name }}</p>
+                <p class="text-gray-600 font-bold text-2xl mb-2">Current Crop: {{ area.crop.name }}</p>
                 <img class="h-32 place-self-end" :src="area.crop.image" />
               </div>
             </div>
 
-            <div class="text-white p-8 col-span-3 m-2 rounded-lg bg-indigo-400 shadow-md flex flex-col">
-              <p class="font-extrabold text-2xl">Connected Devices</p>
-              <ul class="space-y-2 my-2">
-                <li class="bg-indigo-500 rounded px-2 py-1 flex items-center gap-2">
-                  <div>
-                    <Icon name="ph:fan-bold" /> Fan Extreme
-                  </div>
-                  <UBadge>active</UBadge>
-                </li>
-                <li class="bg-indigo-500 rounded px-2 py-1 flex items-center gap-2">
-                  <div>
-                    <Icon name="ph:fan-bold" /> Fan Extreme
-                  </div>
-                  <UBadge>active</UBadge>
-                </li>
+            <div class="text-gray-500 p-8 col-span-3 m-2 rounded-lg bg-white shadow flex flex-col">
+              <p class="font-extrabold text-gray-600 text-2xl">Connected Devices</p>
+              <ul class="space-y-4 my-2">
+                <DashboardDevice v-for="device in selectedGreenhouse.devices" :device="device" />
               </ul>
             </div>
           </div>
@@ -94,7 +83,7 @@ const chartData = ref({
   datasets: [
     {
       label: 'Data One',
-      backgroundColor: '#fff',
+      backgroundColor: '#0EA5E9',
       data: [40, 20, 12, 50, 10],
     },
   ],

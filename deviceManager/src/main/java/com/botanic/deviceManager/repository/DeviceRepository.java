@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
-public abstract class DeviceRepository implements JpaRepository<Device, Integer> {
+public interface DeviceRepository extends JpaRepository<Device, Integer> {
 
 }

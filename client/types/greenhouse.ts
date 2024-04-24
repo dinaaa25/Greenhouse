@@ -1,4 +1,5 @@
 import type { TemperatureMeasurement } from "./temperature";
+import type { Device } from "./device";
 
 export interface Crop {
   name: string;
@@ -13,4 +14,7 @@ export interface Greenhouse {
   description: string;
   areas: [{ crop: Crop }];
   temperature?: TemperatureMeasurement;
+  humidity?: number;
+  irrigation?: number;
+  devices: Device[];
 }

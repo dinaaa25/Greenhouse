@@ -29,16 +29,17 @@
             </div>
             <div class="border rounded-lg col-span-2">
               <p class="font-bold p-2">Devices</p>
-              <div v-for="device in devices" class="bg-gray-200 flex px-2 gap-4 py-1">
+              <div v-for="device in selectedGreenhouse.devices" class="bg-gray-200 flex px-2 gap-4 py-1">
                 <p class="font-medium">{{ device.name }}</p>
                 <UBadge color="blue">{{ device.type }}</UBadge>
               </div>
             </div>
-            {{ deviceTypes }}
             <div class="border rounded-lg p-2 space-y-2">
               <p class="font-bold">Add Device</p>
               <UInput v-model="exampleName" color="primary" variant="outline" placeholder="Name" />
-              <USelect v-if="deviceTypes" v-model="country" :options="deviceTypes" />
+              <USelect placeholder="select type" option-attribute="name" v-model="country" :options="deviceTypes">
+
+              </USelect>
               <UButton @click="addDevice">Submit</UButton>
             </div>
           </div>
@@ -52,24 +53,21 @@
 </template>
 
 <script setup lang="ts">
-import type { Greenhouse } from '~/types/greenhouse';
+import type { Device, Greenhouse } from '~/types/greenhouse';
 import type { TemperatureMeasurement } from '~/types/temperature';
-import type { Device } from '~~/types/device';
-
-const devices: Ref<Device[]> = ref([]);
 
 const country = ref()
 
 const greenhouses = useGreenhouses();
 const selectedGreenhouse = useState<Greenhouse>("selected-greenhouse");
 
-const exampleName = ref("Example Name");
+const exampleName = ref("Example Device");
 
 const myclient = useStompClient();
 
 function addDevice() {
-  let device = { name: exampleName.value, type: country.value };
-  devices.value.push(device);
+  let device: Device = { name: exampleName.value, type: country.value, status: true };
+  selectedGreenhouse.value.devices.push(device);
   myclient.publish({ destination: "device_registration", headers: { "_typeId": "com.botanic.deviceManager.model.Device" }, body: JSON.stringify(device) });
 }
 
@@ -92,7 +90,7 @@ function sendTemperatureToMessageQueue(temperature: number, greenhouseId: number
 
 const deviceTypes = useState("devicetypes");
 
-useFetch("http://localhost:8000/devices/device-types/", {
+useFetch("http://localhost:8000/devices/device-type", {
   async onResponse({ request, response }) {
     if (response.status === 200) {
       deviceTypes.value = await response._data;

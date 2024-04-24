@@ -68,8 +68,8 @@ services:
     expose:
       - 8080
 
-  device_manager:
-    container_name: device_manager
+  devicemanager:
+    container_name: devicemanager
     build:
       context: ./deviceManager
       args:
@@ -78,7 +78,9 @@ services:
       - database
       - message_queue
     expose:
-      - 8082
+      - 8080
+    ports:
+      - "8089:8080"
 
   client:
     container_name: "front-end"
@@ -111,7 +113,7 @@ services:
     depends_on:
       - temperature
       - greenhouse
-      - device_manager
+      - devicemanager
       - humidity
       - ventilation
       - irrigation
